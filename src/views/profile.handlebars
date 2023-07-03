@@ -16,5 +16,13 @@
 <p>Wanna sign out?</p>
 <a href="/api/auth/logout"><button>Click here</button></a>
 
+<p>Home</p>
+<a href="/"><button>Click here</button></a>
+
 <p>Products</p>
 <a href="/products"><button>Click here</button></a>
+
+{{#if isAdmin}}
+    <p>Users</p>
+    <a href="/login"><button>Click here</button></a>
+{{/if}}

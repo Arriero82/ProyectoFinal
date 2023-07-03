@@ -15,6 +15,10 @@ const router = Router();
 
 router.get("/profile", privateAccess, (req, res) => {
   const { user } = req.session;
+  let isAdmin
+  if(user.role==='admin'){
+    isAdmin=true
+  }
   res.render("profile", { user });
 });
 
@@ -34,13 +38,18 @@ router.get("/passrecovery", (req, res) => {
   res.render("passrecovery");
 });
 
-router.get('/', (req, res) => {
-  res.render('home');
-})
+router.get("/", (req, res) => {
+  const { user } = req.session;
+  let isAdmin
+  if(user.role==='admin'){
+    isAdmin=true
+  }
+  res.render("home", { user, isAdmin });
+});
 
 router.get("/users", adminAccess, async (req, res) => {
   const { user } = req.session;
-  
+
   const users = await User.get();
   const docs = [];
   users.forEach((element) => {
@@ -114,7 +123,12 @@ router.get("/ticket", privateAccess, async (req, res) => {
     const formattedDate = purchaseDate.toLocaleDateString(); // Obtiene la fecha en formato legible (por ejemplo, '02/07/2023')
     const formattedTime = purchaseDate.toLocaleTimeString();
 
-    const renderTicket = { code, purchase_datetime: `${formattedDate} ${formattedTime}`, ammount, purchaser };
+    const renderTicket = {
+      code,
+      purchase_datetime: `${formattedDate} ${formattedTime}`,
+      ammount,
+      purchaser,
+    };
     console.log(renderTicket);
     res.render("ticket", { user, renderTicket });
   } catch (error) {
