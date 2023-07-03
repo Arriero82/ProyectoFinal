@@ -1,0 +1,33 @@
+<h1>Lista de Usuarios</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Lastname</th>
+                <th>Email</th>
+                <th>Role</th>   
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each docs}}
+                <tr>
+                    <td>{{name}}</td>
+                    <td>{{lastname}}</td>   
+                    <td>{{email}}</td>
+                    <td>{{role}}</td>
+                    <td>
+                        <select onchange="changeRole('{{email}}', this.value)">
+                            <option value="">Select</option>
+                            <option value="user">user</option>
+                            <option value="admin">admin</option>
+                            <option value="premium">premium</option>
+                        </select>
+                        <button onclick="deleteUser('{{email}}')">Eliminar</button>
+                    </td>
+                </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+<script src="/js/users.js"></script>  

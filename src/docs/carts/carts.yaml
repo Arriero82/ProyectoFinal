@@ -1,0 +1,256 @@
+openapi: "3.0.1"
+info:
+  title: Api
+  version: "1.0"
+paths:
+  /api/carts/:
+    get:
+      summary: Gets all carts
+      tags: 
+        - "Carts"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json: 
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/definitions/Product"
+        "400":
+          description: Bad request
+        "500":
+          description: Internal server error
+    post:
+      summary: Creates an empty cart
+      tags: 
+        - "Carts"
+      responses: 
+        "200":
+          description: Succesfully created an empty cart
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cart"
+        "400":
+          description: Bad request
+        "500":
+          description: Internal server error
+  /api/carts/{cid}:
+    get:
+      summary: Gets cart by Id
+      tags:
+        - "Carts"
+      responses: 
+        "200":
+          description: Successful operation
+          content:
+            application/json: 
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/definitions/Product"
+        "400":
+          description: Bad request
+        "500":
+          description: Internal server error
+    put:
+      summary: Updates cart by adding products and their quantities
+      tags: 
+        - "Carts"
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: cart's id
+          schema:
+           type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/definitions/UpdateProduct"
+    delete:
+      summary: Deletes a cart
+      tags: 
+        - "Carts"
+      responses:
+        "200":
+          description: Succesfully deleted cart by id
+        "400":
+          description: Bad request
+        "500":
+          description: Internal server error
+
+  /api/carts/{cid}/purchases:
+    post:
+      summary: Creates a ticket to and updates quantities in db
+      tags: 
+        - "Carts"
+  /api/carts/{cid}/product/{pid}:
+    post:
+      summary: Adds a product to a given cart, quantity one
+      tags: 
+        - "Carts"
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: cart's id
+          schema:
+          type: string
+        - name: pid
+          in: path
+          required: true
+          description: product's id
+          schema:
+          type: string
+      responses:
+        "200":
+          description: Succesfully added product to cart
+        "400":
+          description: Bad request
+        "500":
+          description: Internal server error
+    put:
+      summary: Updates quantity of a product in a given cart
+      tags: 
+        - "Carts"
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: cart's id
+          schema:
+          type: string
+        - name: pid
+          in: path
+          required: true
+          description: product's id
+          schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/definitions/UpdateQuantity"
+      responses:
+        "200":
+          description: Succesfully deleted cart by id
+        "400":
+          description: Bad request
+        "500":
+          description: Internal server error
+
+    delete:
+      post:
+      summary: Deletes a product from a given cart
+      tags: 
+        - "Carts"
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: cart's id
+          schema:
+          type: string
+        - name: pid
+          in: path
+          required: true
+          description: product's id
+          schema:
+          type: string
+      responses:
+        "200":
+          description: Succesfully product from cart
+        "400":
+          description: Bad request
+        "500":
+          description: Internal server error
+components:
+  schemas:
+    Cart:
+      type: object
+      properties:
+        _id: 
+          type: string
+          description: Id de mongodb
+        products:
+          type: array
+          description: array of products
+      example:
+        _id: "63fea9bced198a34e995d081"
+        products: [
+
+        ]
+
+  definitions:
+    Product:
+      type: object
+      properties:
+        _id: 
+          type: string
+          description: Id de mongodb
+        title:
+          type: string
+          description: product's title
+        description:
+          type: string
+          description: product's description
+        code:
+          type: string,
+          description: business product's catalog number
+        price:
+          type: number
+          description: indicates product's value
+        status:
+          type: boolean
+          description: indicates if the product is available
+        stock:
+          type: number
+          description: quantity of available product
+        category:
+          type: string
+          description: tag category for the product
+        thumbnails:
+          type: array
+          description: Array of images of the product
+      example:
+        _id: "63fea9bced198a34e995d081"
+        title: "remera verde"
+        description: "remera verde mujer"
+        code: "abc150"
+        price: "5000"
+        status: true
+        stock: "13"
+        category: "remera"
+        thumbnails: [
+                    "https://i.pinimg.com/originals/65/f4/c3/65f4c3bb5588b943838a05ec58afb83b.webp"
+                    ]
+        quantity: 5
+    UpdateProduct:
+      type: object
+      properties:
+        _id: 
+          type: string
+          description: product's id
+        quantity:
+          type: number
+          description: selected quantity of the product
+      example:
+        _id: "63fea9bced198a34e995d081"
+        quantity: 15
+    UpdateQuantity:
+      type: object
+      properties:
+        quantity:
+          type: number
+          description: selected quantity of the product
+      example:
+        quantity: 10
+
+
+
+  

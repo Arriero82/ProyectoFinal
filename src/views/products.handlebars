@@ -1,0 +1,39 @@
+<h1>Productos</h1>
+<h2>Hola {{user.name}} {{user.lastname}}</h2>
+
+{{#if error}}
+  <p>{{error}}</p>
+{{/if}}
+
+<div class="items">
+  {{#each docs}}
+    <div class="card">
+      <h2>{{title}}</h2>
+      <p>{{description}}</p>
+      <p>Price: ${{price}}</p>
+      <p>Stock: {{stock}}</p>
+       <div class="actions">
+        <label for="">Quantity</label>
+        <input type="number" class="quantity-input" min="1" max="{{stock}}" />
+        <button
+          class="buy-btn"
+          onclick="comprar('{{id}}', this.parentElement.querySelector('.quantity-input').value, '{{user.email}}')"
+        >Comprar</button>
+      </div>
+    </div>
+  {{/each}}
+  <input type="hidden" id="userEmail" value="{{user.email}}" />
+</div>
+
+<p>Click here to proceed to your cart</p>
+<a href="/cart"><button>Cart</button></a>
+
+<p>Go to profile</p>
+<a href="/profile"><button>Profile</button></a>
+
+<hr />
+<a href="{{products.prevPage}}">Prev Page</a>
+<p>{{products.page}}</p>
+<a href="{{products.nextPage}}">Next Page</a>
+
+<script src="/js/products.js"></script>

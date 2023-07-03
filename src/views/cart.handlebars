@@ -1,0 +1,42 @@
+<h1>Carrito de Compra</h1>
+<h2>Hola {{user.name}} {{user.lastname}}</h2>
+
+{{#if error}}
+  <p>{{error}}</p>
+{{/if}}
+
+{{#if formattedProducts.length}}
+<h3>Productos</h3>
+  <div class="items">
+    {{#each formattedProducts}}
+      <div class="card">
+        <h3>Nombre: {{title}}</h3>
+        <p>Descripcion: {{description}}</p>
+        <p>Precio: ${{price}}</p>
+        <input type="number" class="quantity-input" value="{{quantity}}" />
+        <button
+          onclick="changeQuantity('{{cid}}', '{{id}}', this.parentElement.querySelector('.quantity-input').value)"
+        >Modificar Cantidad</button>
+        <button onclick="deleteProduct('{{cid}}', '{{id}}')">Eliminar</button>
+      </div>
+    {{/each}}
+  </div>
+{{else}}
+  <h3>No hay productos cargados.</h2>
+{{/if}}
+
+{{#if formattedProducts.length}}
+<p>Empty the cart</p>
+<button onclick="deleteCart('{{cid}}')">click here to delete all products</button>
+{{/if}}
+<p>Continue buying</p>
+<a href="/products"><button>Back to products</button></a>
+
+{{#if formattedProducts.length}}
+<div class="total-section">
+  <h3>Total: ${{totalPrice}}</h3>
+  <button onclick="purchaseCart('{{cid}}')">Finalize purchase</button>
+</div>
+{{/if}}
+
+<script src="/js/cart.js"></script>
