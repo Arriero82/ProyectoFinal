@@ -34,6 +34,10 @@ router.get("/passrecovery", (req, res) => {
   res.render("passrecovery");
 });
 
+router.get('/', (req, res) => {
+  res.render('home');
+})
+
 router.get("/users", adminAccess, async (req, res) => {
   const { user } = req.session;
   
